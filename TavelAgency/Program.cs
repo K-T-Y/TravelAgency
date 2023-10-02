@@ -20,6 +20,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<ISheduleService, SheduleService>();
+builder.Services.AddScoped<IBookingService, BookingService>();
 builder.Services.AddScoped<ITravelAgencyDatabaseSettings, TravelAgencyDatabaseSettings>();
 var app = builder.Build();
 

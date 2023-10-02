@@ -20,46 +20,80 @@ namespace TavelAgency.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Users>>> GetAll()
         {
-            var students =  _service.Get();
-            return Ok(students);
+            var users =  _service.Get();
+            return Ok(users);
         }
+
         [Route("SaveUser")]
         [HttpPost]
-        public async Task< ActionResult<Users>> SaveUser([FromBody] Users user)
+        public async Task<ActionResult> SaveUser([FromBody] Users user)
         {
-            _service.Create(user);
-            return Ok(user);
+            var user1 = _service.GetByNIC(user.NIC);
+            var user2 = _service.GetByEmail(user.Email);
+
+            if(user1!=null)
+            {
+                return Ok(new { message = "NIC Already Exists", code = 0 });
+            }
+            else if(user2!=null)
+            {
+                return Ok(new { message = "Email Already Exists", code = 0 });
+            }
+            else
+            {
+                _service.Create(user);
+                return Ok(new { message = "Successfully Created User", code = 1 });
+            }
+
+            
         }
 
         [Route("UpdateUser")]
         [HttpPut]
-        public ActionResult UpdateUser(string id, [FromBody] Users student)
+        public ActionResult UpdateUser([FromQuery]string id, [FromBody] Users user)
         {
-            var existingStudent = _service.Get(id);
+            var existinguser = _service.Get(id);
 
-            if (existingStudent == null)
+            if (existinguser == null)
             {
-                return NotFound($"Student with Id = {id} not found");
+                return Ok(new { message = "User Not Found", code = 0});
             }
 
-            _service.Update(id, student);
+            _service.Update(id, user);
 
-            return Ok(student);
+            return Ok(new { message = "Successfully Updated User", code = 1, data=user });
         }
         [Route("DeleteUser")]
         [HttpDelete]
-        public ActionResult DeleteUser(string id)
+        public ActionResult DeleteUser([FromQuery]string id)
         {
-            var student = _service.Get(id);
+            var user = _service.Get(id);
 
-            if (student == null)
+            if (user == null)
             {
-                return NotFound($"Student with Id = {id} not found");
+                return Ok(new { message = "User Not Found", code = 0 });
             }
 
-            _service.Remove(student.Id);
+            _service.Remove(user.Id);
 
-            return Ok($"Student with Id = {id} deleted");
+            return Ok(new { message = "Successfully Deleted User", code = 1, data = user });
+        }
+
+        [Route("LoginUser")]
+        [HttpGet]
+        public ActionResult LoginUser([FromQuery] string email, [FromQuery]string password)
+        {
+            var user1 = _service.Login(email,password);
+          if(user1 == null)
+            {
+                return Ok(new { message = "Incorrect Credentials", code = 0 });
+            }
+          else
+            {
+                return Ok(new { message = "Successfully Login User", code = 1, data = user1 });
+            }
+
+           
         }
     }
 }

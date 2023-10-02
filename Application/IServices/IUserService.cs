@@ -14,5 +14,8 @@ namespace Application.IServices
         Users Create(Users student);
         void Update(string id, Users student);
         void Remove(string id);
+        Users Login(string email, string password);
+        Users GetByNIC(string nic);
+        Users GetByEmail(string email);
     }
 }

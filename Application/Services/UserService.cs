@@ -13,39 +13,53 @@ namespace Application.Services
 {
     public class UserService:IUserService
     {
-        private readonly IMongoCollection<Users> _students;
+        private readonly IMongoCollection<Users> _users;
 
         public UserService(ITravelAgencyDatabaseSettings settings, IMongoClient mongoClient)
         {
             var database = mongoClient.GetDatabase("travelDB");
-            _students = database.GetCollection<Users>("users");
+            _users = database.GetCollection<Users>("users");
         }
 
-        public Users Create(Users student)
+        public Users Create(Users user)
         {
-            _students.InsertOne(student);
-            return student;
+            _users.InsertOne(user);
+            return user;
         }
 
         public List<Users> Get()
         {
-            return _students.Find(student => true).ToList();
+            return _users.Find(user => true).ToList();
         }
 
         public Users Get(string id)
         {
-            return _students.Find(student => student.Id == id).FirstOrDefault();
+            return _users.Find(user => user.Id == id).FirstOrDefault();
         }
 
         public void Remove(string id)
         {
-            _students.DeleteOne(student => student.Id == id);
+            _users.DeleteOne(user => user.Id == id);
         }
 
-        public void Update(string id, Users student)
+        public void Update(string id, Users user)
         {
-            _students.ReplaceOne(student => student.Id == id, student);
+            _users.ReplaceOne(users => users.Id == id, user);
         }
+        public Users Login(string email,string password)
+        {
+            return _users.Find(user => user.Email == email && user.Password==password).FirstOrDefault();
+        }
+        public Users GetByNIC(string nic)
+        {
+            return _users.Find(user => user.NIC == nic).FirstOrDefault();
+        }
+        public Users GetByEmail(string email)
+        {
+            return _users.Find(user => user.Email == email).FirstOrDefault();
+        }
+      
+
 
     }
 }

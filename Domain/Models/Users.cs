@@ -1,4 +1,5 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Bson.Serialization.IdGenerators;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace Domain.Models
     public class Users
 
     {
-        [BsonId]
+        [BsonId(IdGenerator = typeof(StringObjectIdGenerator))]
         public string? Id { get; set; }
 
         [BsonElement("fName")]
@@ -33,5 +34,7 @@ namespace Domain.Models
         public string? NIC { get; set; }
         [BsonElement("category")]
         public string? Category { get; set; }
+        [BsonElement("active")]
+        public bool? Active { get; set; }
     }
 }
