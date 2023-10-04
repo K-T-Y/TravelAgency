@@ -48,7 +48,7 @@ namespace Application.Services
         }
         public Users Login(string email,string password)
         {
-            return _users.Find(user => user.Email == email && user.Password==password).FirstOrDefault();
+            return _users.Find(user => user.Email == email && user.Password==password && user.Active==true).FirstOrDefault();
         }
         public Users GetByNIC(string nic)
         {

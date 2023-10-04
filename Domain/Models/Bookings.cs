@@ -16,7 +16,7 @@ namespace Domain.Models
         [BsonElement("from")]
         public string? From { get; set; }
         [BsonElement("status")]
-        public bool? Status { get; set; }
+        public int? Status { get; set; }
         [BsonElement("to")]
         public string? To { get; set; }
         [BsonElement("date")]

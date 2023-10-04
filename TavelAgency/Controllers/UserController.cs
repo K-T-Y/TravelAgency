@@ -86,7 +86,7 @@ namespace TavelAgency.Controllers
             var user1 = _service.Login(email,password);
           if(user1 == null)
             {
-                return Ok(new { message = "Incorrect Credentials", code = 0 });
+                return Ok(new { message = "Incorrect Credentials or Iactive User", code = 0 });
             }
           else
             {
