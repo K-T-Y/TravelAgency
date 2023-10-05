@@ -17,7 +17,7 @@ namespace TavelAgency.Controllers
         public async Task<ActionResult<IEnumerable<Shedules>>> GetAll()
         {
             var shedules = _service.Get();
-            return Ok(shedules);
+            return Ok(new { data=shedules });
         }
         [Route("SaveShedule")]
         [HttpPost]
