@@ -24,7 +24,7 @@ builder.Services.AddScoped<ISheduleService, SheduleService>();
 builder.Services.AddScoped<IBookingService, BookingService>();
 builder.Services.AddScoped<ITravelAgencyDatabaseSettings, TravelAgencyDatabaseSettings>();
 var app = builder.Build();
-
+app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

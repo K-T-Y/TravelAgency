@@ -37,7 +37,10 @@ namespace Application.Services
         {
             return _bookings.Find(booking => booking.Id == id).FirstOrDefault();
         }
-
+        public List<Bookings>  GetUserBookings(string id)
+        {
+            return _bookings.Find(booking => booking.User == id).ToList();
+        }
         public void Remove(string id)
         {
             _bookings.DeleteOne(booking => booking.Id == id);

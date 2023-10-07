@@ -68,5 +68,14 @@ namespace TavelAgency.Controllers
 
             return Ok(new { message = "Successfully Deleted Booking", code = 1, data = booking });
         }
+
+        [Route("UserGetBooking")]
+        [HttpGet]
+        public ActionResult UserGetBooking([FromQuery] string id)
+        {
+            var bookings = _service.GetUserBookings(id);
+
+            return Ok(bookings);
+        }
     }
 }
